@@ -2,13 +2,17 @@
 {% block title %}Log in · PaperSafe{% endblock %}
 {% block content %}
 <section class="panel narrow">
-  <div class="eyebrow">WELCOME BACK</div><h1>Log in</h1>
+  <div class="auth-heading">
+    <span class="eyebrow">YOUR WORKSPACE</span>
+    <h1>Welcome back</h1>
+    <p class="muted">Sign in to access your documents.</p>
+  </div>
   <form method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <label>Username<input name="username" autocomplete="username" required></label>
-    <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
-    <button class="button full" type="submit">Log in</button>
+    <label for="username">Username<input id="username" name="username" autocomplete="username" required></label>
+    <label for="password">Password<input id="password" name="password" type="password" autocomplete="current-password" required></label>
+    <button class="button button-full" type="submit">Log in</button>
   </form>
-  <p class="muted">New here? <a href="{{ url_for('register') }}">Create an account</a>.</p>
+  <p class="auth-switch">New to PaperSafe? <a href="{{ url_for('register') }}">Create an account</a></p>
 </section>
 {% endblock %}

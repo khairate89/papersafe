@@ -1,16 +1,29 @@
 {% extends "base.html" %}
-{% block title %}PaperSafe — private PDF storage{% endblock %}
+{% block title %}PaperSafe · PDF workspace{% endblock %}
 {% block content %}
 <section class="hero">
-  <div class="eyebrow">PRIVATE DOCUMENT WORKSPACE</div>
-  <h1>Your PDFs, organized<br>and under your control.</h1>
-  <p>Upload, search, and download your documents in a simple private workspace. Each account sees only its own files.</p>
-  <div class="actions"><a class="button" href="{{ url_for('register') }}">Create an account</a><a class="button secondary" href="{{ url_for('login') }}">Log in</a></div>
+  <div class="hero-copy">
+    <div class="eyebrow">PDF DOCUMENT WORKSPACE</div>
+    <h1>Your documents, organized and accessible.</h1>
+    <p>Upload, search, and manage PDF documents in one workspace. Share selected files with other accounts when needed.</p>
+    <div class="actions"><a class="button button-light" href="{{ url_for('register') }}">Create an account</a><a class="button button-hero-secondary" href="{{ url_for('login') }}">Log in</a></div>
+  </div>
 </section>
 <section class="feature-grid">
-  <article class="feature"><div class="feature-icon">↥</div><h3>Upload PDFs</h3><p>Private storage with a 10 MB upload limit and basic format checks.</p></article>
-  <article class="feature"><div class="feature-icon">⌕</div><h3>Find documents</h3><p>Search your document titles without exposing other users’ records.</p></article>
-  <article class="feature"><div class="feature-icon">◈</div><h3>Access controls</h3><p>Login-required routes and owner checks on download and deletion.</p></article>
+  <article class="feature-card">
+    <span class="feature-icon" aria-hidden="true">↥</span>
+    <h2>PDF Management</h2>
+    <p>Upload, organize, download, and remove PDF documents from your workspace.</p>
+  </article>
+  <article class="feature-card">
+    <span class="feature-icon" aria-hidden="true">⌕</span>
+    <h2>Document Search</h2>
+    <p>Find a document by searching its title.</p>
+  </article>
+  <article class="feature-card">
+    <span class="feature-icon" aria-hidden="true">◈</span>
+    <h2>Access Controls</h2>
+    <p>Share selected documents with registered accounts and revoke access when needed.</p>
+  </article>
 </section>
-<div class="notice"><strong>Educational prototype:</strong> this is a teaching project, not a production document service. File signature checks alone do not prove a PDF is safe.</div>
 {% endblock %}

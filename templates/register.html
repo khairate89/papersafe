@@ -2,14 +2,17 @@
 {% block title %}Create account · PaperSafe{% endblock %}
 {% block content %}
 <section class="panel narrow">
-  <div class="eyebrow">GET STARTED</div><h1>Create your account</h1>
-  <p class="muted">Use a unique username and a test password. Do not reuse a real password.</p>
+  <div class="auth-heading">
+    <span class="eyebrow">GET STARTED</span>
+    <h1>Create your account</h1>
+    <p class="muted">Set up an account to organize and share PDF documents.</p>
+  </div>
   <form method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <label>Username<input name="username" minlength="3" maxlength="40" autocomplete="username" required></label>
-    <label>Password<input name="password" type="password" minlength="12" autocomplete="new-password" required><small>At least 12 characters for this prototype.</small></label>
-    <button class="button full" type="submit">Create account</button>
+    <label for="username">Username<input id="username" name="username" minlength="3" maxlength="40" autocomplete="username" required><small>Use 3–40 characters.</small></label>
+    <label for="password">Password<input id="password" name="password" type="password" minlength="12" autocomplete="new-password" required><small>Use at least 12 characters.</small></label>
+    <button class="button button-full" type="submit">Create account</button>
   </form>
-  <p class="muted">Already registered? <a href="{{ url_for('login') }}">Log in</a>.</p>
+  <p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
 </section>
 {% endblock %}

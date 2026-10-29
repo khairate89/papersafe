@@ -84,7 +84,7 @@ class PaperSafeTests(unittest.TestCase):
         duplicate = self.register("alice")
         self.assertIn(b"already in use", duplicate.data)
         signed_in = self.login("alice")
-        self.assertIn(b"My documents", signed_in.data)
+        self.assertIn(b"Documents", signed_in.data)
 
     def test_logout_invalidates_copied_session_cookie(self):
         self.register("alice")
@@ -113,7 +113,7 @@ class PaperSafeTests(unittest.TestCase):
         self.assertEqual(logout.status_code, 302)
 
         signed_in_again = self.login("alice")
-        self.assertIn(b"My documents", signed_in_again.data)
+        self.assertIn(b"Documents", signed_in_again.data)
         self.assertEqual(self.client.get("/documents").status_code, 200)
 
     def test_missing_or_malformed_session_version_is_rejected(self):
@@ -282,7 +282,7 @@ class PaperSafeTests(unittest.TestCase):
         payload = self.client.get(
             "/documents", query_string={"q": "' OR '1'='1' --"}
         )
-        self.assertIn(b"No matching documents", payload.data)
+        self.assertIn(b"No documents match your search", payload.data)
         self.assertNotIn(b"private notes", payload.data)
 
     def test_csrf_rejects_state_change_without_token(self):

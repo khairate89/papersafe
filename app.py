@@ -59,6 +59,7 @@ app.config.update(
     DATABASE=str(DB_PATH),
     UPLOAD_FOLDER=str(UPLOAD_DIR),
     MAX_CONTENT_LENGTH=MAX_UPLOAD_BYTES + MAX_MULTIPART_OVERHEAD_BYTES,
+    TEMPLATES_AUTO_RELOAD=True,
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=APP_ENV != "development",
@@ -285,7 +286,7 @@ def upload():
             return redirect(url_for("upload"))
         data = file.read(MAX_UPLOAD_BYTES + 1)
         if len(data) > MAX_UPLOAD_BYTES:
-            flash("File exceeds the 10 MB limit.", "error")
+            flash("The PDF exceeds the 10 MiB per-file limit.", "error")
             return redirect(url_for("upload"))
         # Lightweight format sanity check, not a complete malware or PDF safety scan.
         if not data.startswith(b"%PDF-"):
@@ -423,7 +424,7 @@ DEMO_PDF = b"%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n"
 
 
 def seed_demo_data():
-    """Create local-only synthetic demo accounts and a shared benign PDF once."""
+    """Create local sample accounts and a shared benign PDF once."""
     db = sqlite3.connect(app.config["DATABASE"])
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys = ON")
@@ -476,7 +477,7 @@ def seed_demo_data():
 
 @app.errorhandler(413)
 def too_large(_error):
-    return render_template("error.html", message="Upload is too large (10 MB maximum)."), 413
+    return render_template("error.html", message="The total upload request is too large."), 413
 
 
 @app.errorhandler(404)
@@ -492,10 +493,10 @@ def init_db_command():
 
 @app.cli.command("seed-demo")
 def seed_demo_command():
-    """Seed repeatable local coursework accounts and a harmless shared PDF."""
+    """Seed repeatable sample accounts and a harmless shared PDF."""
     init_db()
     seed_demo_data()
-    print("Synthetic demo data is ready for local coursework use.")
+    print("Sample accounts and a PDF document are ready.")
 
 
 if __name__ == "__main__":
