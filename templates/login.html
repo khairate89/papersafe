@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Log in · PaperSafe{% endblock %}
+{% block content %}
+<section class="panel narrow">
+  <div class="eyebrow">WELCOME BACK</div><h1>Log in</h1>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Username<input name="username" autocomplete="username" required></label>
+    <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+    <button class="button full" type="submit">Log in</button>
+  </form>
+  <p class="muted">New here? <a href="{{ url_for('register') }}">Create an account</a>.</p>
+</section>
+{% endblock %}

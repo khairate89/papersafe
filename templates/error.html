@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Request error · PaperSafe{% endblock %}
+{% block content %}<section class="panel narrow"><div class="eyebrow">REQUEST NOT COMPLETED</div><h1>Something went wrong</h1><p>{{ message }}</p><a class="button" href="{{ url_for('index') }}">Return home</a></section>{% endblock %}

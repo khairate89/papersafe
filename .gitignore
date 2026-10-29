@@ -1,0 +1,33 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local application data and secrets
+instance/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.secret
+.flask_secret
+
+# Build and editor files
+.coverage
+htmlcov/
+papersafe-submission.zip
+# Private coursework assessment material
+/assessment-report.md
+/assessment-log.md
+/provenance.md
+/evidence/
+
+# Local archives and virtual environments
+*.zip
+venv/

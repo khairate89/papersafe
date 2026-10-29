@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Upload PDF · PaperSafe{% endblock %}
+{% block content %}
+<section class="panel narrow">
+  <div class="eyebrow">ADD A DOCUMENT</div><h1>Upload a PDF</h1>
+  <p class="muted">Maximum size: 10 MB. Files are stored privately under a generated server-side name.</p>
+  <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Document title<input name="title" maxlength="120" placeholder="e.g. Project proposal"></label>
+    <label>PDF file<input name="pdf" type="file" accept=".pdf,application/pdf" required></label>
+    <button class="button full" type="submit">Upload document</button>
+  </form>
+  <div class="notice">The prototype checks the extension and PDF header. These checks are not a malware scan and cannot establish that a file is safe to parse.</div>
+</section>
+{% endblock %}

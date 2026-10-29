@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}My documents · PaperSafe{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><div class="eyebrow">YOUR WORKSPACE</div><h1>My documents</h1><p class="muted">Your files and documents shared with you.</p></div>
+  <a class="button" href="{{ url_for('upload') }}">＋ Upload PDF</a>
+</div>
+<form class="search" method="get" action="{{ url_for('documents') }}">
+  <label class="sr-only" for="q">Search document titles</label>
+  <input id="q" name="q" value="{{ query }}" maxlength="100" placeholder="Search document titles…">
+  <button class="button" type="submit">Search</button>
+  {% if query %}<a class="button secondary" href="{{ url_for('documents') }}">Clear</a>{% endif %}
+</form>
+{% if documents %}
+<div class="doc-list">
+  {% for doc in documents %}
+  <article class="doc-row">
+    <div class="pdf-icon">PDF</div>
+    <div class="doc-main"><h3>{{ doc.title }}</h3><p>{{ doc.original_name }} · {{ "%.1f"|format(doc.size_bytes / 1024) }} KB</p><small>Uploaded {{ doc.uploaded_at }}{% if not doc.is_owner %} · Shared by {{ doc.owner_username }}{% endif %}</small></div>
+    <div class="doc-actions">
+      <a class="button small" href="{{ url_for('download', document_id=doc.id) }}">Download</a>
+      {% if doc.is_owner %}
+        <form method="post" action="{{ url_for('delete_document', document_id=doc.id) }}" onsubmit="return confirm('Delete this document?')">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button small danger" type="submit">Delete</button>
+        </form>
+      {% endif %}
+    </div>
+    {% if doc.is_owner %}
+    <details class="sharing">
+      <summary>Manage sharing</summary>
+      <form class="share-form" method="post" action="{{ url_for('manage_document_shares', document_id=doc.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="action" value="share">
+        <label>Share with username<input name="username" minlength="3" maxlength="40" required></label>
+        <button class="button small" type="submit">Share</button>
+      </form>
+      {% for share in shares_by_document.get(doc.id, []) %}
+      <form class="revoke-form" method="post" action="{{ url_for('manage_document_shares', document_id=doc.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="action" value="revoke">
+        <input type="hidden" name="recipient_id" value="{{ share.recipient_id }}">
+        <span>Shared with {{ share.username }}</span>
+        <button class="button small secondary" type="submit">Revoke</button>
+      </form>
+      {% else %}<small>Not shared with anyone.</small>{% endfor %}
+    </details>
+    {% endif %}
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty"><div class="empty-icon">▤</div><h2>{% if query %}No matching documents{% else %}No documents yet{% endif %}</h2><p class="muted">{% if query %}Try a different title or clear your search.{% else %}Upload your first PDF to get started.{% endif %}</p><a class="button" href="{{ url_for('upload') }}">Upload a PDF</a></div>
+{% endif %}
+{% endblock %}
